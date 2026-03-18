@@ -1,5 +1,3 @@
-Here is the updated **README.md** file, restructured to reflect your specific role assignments and the technical workflow for **TrackIt**.
-
 # TrackIt - Real Time Bus Tracking Service
 
 ## Project Overview
