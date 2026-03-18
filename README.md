@@ -8,20 +8,16 @@
 
 ## Technical Stack
 
-* 
-**Frontend:** HTML, CSS, JavaScript, Bootstrap 
+* **Frontend:** HTML, CSS, JavaScript, Bootstrap 
 
 
-* 
-**Backend:** Node.js with Express framework 
+* **Backend:** Node.js with Express framework 
 
 
-* 
-**Database:** Firebase (Real-time Database) or MySQL 
+* **Database:** Firebase (Real-time Database) or MySQL 
 
 
-* 
-**APIs:** Google Maps JavaScript API, Distance Matrix API 
+* **APIs:** Google Maps JavaScript API, Distance Matrix API 
 
 
 
@@ -50,53 +46,43 @@ The following table outlines the project creation steps and the specific team me
 
 ### 1. Requirements & Design
 
-* 
-**Requirement Gathering**: Collect data on bus numbers, campus routes, and user needs.
+* **Requirement Gathering**: Collect data on bus numbers, campus routes, and user needs.
 
 
-* 
-**Database Architecture**: Design the schema to handle user profiles and incoming GPS coordinates.
+* **Database Architecture**: Design the schema to handle user profiles and incoming GPS coordinates.
 
 
-* 
-**Prototyping**: Create UI layouts for the dashboard and the live map view.
+* **Prototyping**: Create UI layouts for the dashboard and the live map view.
 
 
 
 ### 2. Core Development
 
-* 
-**Backend Infrastructure**: Build the API to manage location data flow.
+* **Backend Infrastructure**: Build the API to manage location data flow.
 
 
-* 
-**Frontend Construction**: Develop the responsive user interface for route selection.
+* **Frontend Construction**: Develop the responsive user interface for route selection.
 
 
-* 
-**Map Integration**: Use the Google Maps API for rendering the location of the shuttle.
+* **Map Integration**: Use the Google Maps API for rendering the location of the shuttle.
 
 
 
 ### 3. Real-Time Features & Safety
 
-* 
-**Live Communication**: Implement WebSocket or HTTP protocols for instant coordinate transmission.
+* **Live Communication**: Implement WebSocket or HTTP protocols for instant coordinate transmission.
 
 
-* 
-**Emergency Systems**: Integrate the SOS alert notification system for student safety.
+* **Emergency Systems**: Integrate the SOS alert notification system for student safety.
 
 
 
 ### 4. Quality Assurance & Launch
 
-* 
-**Testing**: Perform unit testing for APIs and field testing for GPS accuracy.
+* **Testing**: Perform unit testing for APIs and field testing for GPS accuracy.
 
 
-* 
-**Deployment**: Host the application and train drivers on using the tracking software.
+* **Deployment**: Host the application and train drivers on using the tracking software.
 
 
 
@@ -104,17 +90,13 @@ The following table outlines the project creation steps and the specific team me
 
 ## Team No. 12
 
-* 
-**Nitya Sanguri** (Team Lead) 
+* **Nitya Sanguri** (Team Lead) 
 
 
-* 
-**Pixel Kathait** 
+* **Pixel Kathait** 
 
 
-* 
-**Niyati Singh** 
+* **Niyati Singh** 
 
 
-* 
-**Nitya Bhardwaj** 
+* **Nitya Bhardwaj** 
