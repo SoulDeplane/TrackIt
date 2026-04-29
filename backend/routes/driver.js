@@ -9,7 +9,6 @@ const {
 } = require('../controllers/driverController');
 const { protect, authorize } = require('../middleware/auth');
 
-// All routes require driver role
 router.use(protect);
 router.use(authorize('driver'));
 

@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/Toast';
 
 const containerStyle = { width: '100%', height: '100%' };
-const center = { lat: 30.3165, lng: 78.0322 }; // Dehradun
+const center = { lat: 30.3165, lng: 78.0322 };
 
 const StudentDashboard = () => {
   const { user } = useAuth();
@@ -35,7 +35,6 @@ const StudentDashboard = () => {
     setMap(null);
   }, []);
 
-  // 🚨 SOS FUNCTION
   const handleSOS = () => {
     if (!navigator.geolocation) {
       toast.error("Location not supported");
@@ -63,7 +62,6 @@ const StudentDashboard = () => {
     );
   };
 
-  // Fetch routes + socket setup
   useEffect(() => {
     fetchRoutes();
     socketService.connect();
@@ -166,12 +164,10 @@ const StudentDashboard = () => {
 
       <div className="flex flex-col lg:flex-row h-[calc(100vh-64px)]">
 
-        {/* Sidebar */}
         <div className="w-full lg:w-96 bg-white shadow-lg p-4">
 
           <h1 className="text-xl font-bold mb-4">Track Buses</h1>
 
-          {/* Route Select */}
           <select
             value={selectedRoute}
             onChange={(e) => setSelectedRoute(e.target.value)}
@@ -185,7 +181,6 @@ const StudentDashboard = () => {
             ))}
           </select>
 
-          {/* 🚨 SOS BUTTON */}
           <button
             onClick={handleSOS}
             className="w-full mt-4 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition"
@@ -193,7 +188,6 @@ const StudentDashboard = () => {
             🚨 SEND SOS
           </button>
 
-          {/* Bus List */}
           <div className="mt-4 space-y-2">
             {buses.map(bus => (
               <div
@@ -209,7 +203,6 @@ const StudentDashboard = () => {
 
         </div>
 
-        {/* Map */}
         <div className="flex-1">
           {isLoaded && (
             <GoogleMap

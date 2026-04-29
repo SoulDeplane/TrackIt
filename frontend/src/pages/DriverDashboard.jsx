@@ -72,7 +72,6 @@ const DriverDashboard = () => {
         const { latitude, longitude } = position.coords;
         setCurrentLocation({ lat: latitude, lng: longitude });
 
-        // Send location via socket
         socketService.sendLocation({
           busId: bus._id,
           lat: latitude,
@@ -107,7 +106,6 @@ const DriverDashboard = () => {
     try {
       await driverAPI.updateSeats(newSeats);
       
-      // If trip is active, send updated seats via socket
       if (tripActive && currentLocation) {
         socketService.sendLocation({
           busId: bus._id,
@@ -157,7 +155,6 @@ const DriverDashboard = () => {
       <div className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-8">Driver Dashboard</h1>
 
-        {/* Bus Info Card */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
           <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
             <h2 className="text-xl font-semibold text-white">My Bus</h2>
@@ -186,7 +183,6 @@ const DriverDashboard = () => {
               </div>
             </div>
 
-            {/* Route Stops */}
             {bus.routeId?.stops && (
               <div className="mt-6">
                 <p className="text-sm text-gray-500 mb-2">Route Stops:</p>
@@ -202,7 +198,6 @@ const DriverDashboard = () => {
           </div>
         </div>
 
-        {/* Seat Management */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Seat Management</h3>
           
@@ -238,7 +233,6 @@ const DriverDashboard = () => {
           </p>
         </div>
 
-        {/* Trip Controls */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Trip Controls</h3>
           
@@ -281,7 +275,6 @@ const DriverDashboard = () => {
           </div>
         </div>
 
-        {/* Location Status */}
         {tripActive && (
           <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">GPS Status</h3>

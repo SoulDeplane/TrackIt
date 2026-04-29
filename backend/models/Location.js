@@ -22,7 +22,6 @@ const locationSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for efficient queries
 locationSchema.index({ busId: 1, timestamp: -1 });
 
 module.exports = mongoose.model('Location', locationSchema);

@@ -1,26 +1,20 @@
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
-// @desc    Login user
-// @route   POST /api/auth/login
-// @access  Public
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate input
     if (!email || !password) {
       return res.status(400).json({ message: 'Please provide email and password' });
     }
 
-    // Check for user
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Check password
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
@@ -41,26 +35,20 @@ const login = async (req, res) => {
   }
 };
 
-// @desc    Register user (students/parents only - admin created separately)
-// @route   POST /api/auth/register
-// @access  Public
 const register = async (req, res) => {
   try {
     const { name, email, password, role, phoneNumber } = req.body;
 
-    // Only students and parents can self-register
     if (role && !['student', 'parent'].includes(role)) {
       return res.status(400).json({ message: 'Invalid role for registration' });
     }
 
-    // Check if user exists
     const userExists = await User.findOne({ email });
 
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Check phone number uniqueness if provided
     if (phoneNumber) {
       const phoneExists = await User.findOne({ phoneNumber });
       if (phoneExists) {
@@ -90,9 +78,6 @@ const register = async (req, res) => {
   }
 };
 
-// @desc    Get current user
-// @route   GET /api/auth/me
-// @access  Private
 const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);

@@ -2,9 +2,6 @@ const Route = require('../models/Route');
 const Bus = require('../models/Bus');
 const Location = require('../models/Location');
 
-// @desc    Get all routes (for dropdown)
-// @route   GET /api/tracking/routes
-// @access  Private
 const getRoutes = async (req, res) => {
   try {
     const routes = await Route.find().select('routeNumber routeName');
@@ -15,9 +12,6 @@ const getRoutes = async (req, res) => {
   }
 };
 
-// @desc    Get buses by route
-// @route   GET /api/tracking/buses/:routeId
-// @access  Private
 const getBusesByRoute = async (req, res) => {
   try {
     const { routeId } = req.params;
@@ -33,16 +27,12 @@ const getBusesByRoute = async (req, res) => {
   }
 };
 
-// @desc    Get all active buses
-// @route   GET /api/tracking/active-buses
-// @access  Private
 const getActiveBuses = async (req, res) => {
   try {
     const buses = await Bus.find({ isActive: true })
       .populate('driverId', 'name phoneNumber')
       .populate('routeId', 'routeNumber routeName stops');
 
-    // Get latest location for each bus
     const busesWithLocation = await Promise.all(
       buses.map(async (bus) => {
         const latestLocation = await Location.findOne({ busId: bus._id })
@@ -63,9 +53,6 @@ const getActiveBuses = async (req, res) => {
   }
 };
 
-// @desc    Get bus details with latest location
-// @route   GET /api/tracking/bus/:busId
-// @access  Private
 const getBusDetails = async (req, res) => {
   try {
     const { busId } = req.params;
@@ -92,9 +79,6 @@ const getBusDetails = async (req, res) => {
   }
 };
 
-// @desc    Get route details with stops
-// @route   GET /api/tracking/route/:routeId
-// @access  Private
 const getRouteDetails = async (req, res) => {
   try {
     const { routeId } = req.params;

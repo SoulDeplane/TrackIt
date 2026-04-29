@@ -33,49 +33,42 @@ class SocketService {
     }
   }
 
-  // Driver sends location
   sendLocation(data) {
     if (this.socket) {
       this.socket.emit('sendLocation', data);
     }
   }
 
-  // Driver starts trip
   emitTripStarted(busId) {
     if (this.socket) {
       this.socket.emit('tripStarted', { busId });
     }
   }
 
-  // Driver stops trip
   emitTripStopped(busId) {
     if (this.socket) {
       this.socket.emit('tripStopped', { busId });
     }
   }
 
-  // Listen for location updates
   onReceiveLocation(callback) {
     if (this.socket) {
       this.socket.on('receiveLocation', callback);
     }
   }
 
-  // Listen for bus status changes
   onBusStatusChanged(callback) {
     if (this.socket) {
       this.socket.on('busStatusChanged', callback);
     }
   }
 
-  // 🚨 SOS LISTENER
   onSOSAlert(callback) {
     if (this.socket) {
       this.socket.on('SOS_ALERT', callback);
     }
   }
 
-  // Remove listener
   off(event) {
     if (this.socket) {
       this.socket.off(event);

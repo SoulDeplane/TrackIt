@@ -9,7 +9,6 @@ const {
 } = require('../controllers/trackingController');
 const { protect } = require('../middleware/auth');
 
-// All routes require authentication
 router.use(protect);
 
 router.get('/routes', getRoutes);

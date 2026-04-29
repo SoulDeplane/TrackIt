@@ -1,6 +1,5 @@
 const User = require('../models/User');
 
-// 🚨 SEND SOS
 const sendSOS = async (req, res) => {
   try {
     const { lat, lng, busId } = req.body;
@@ -25,9 +24,8 @@ const sendSOS = async (req, res) => {
       timestamp: new Date()
     };
 
-    console.log("🚨 SOS Triggered:", sosData);
+    console.log('SOS Triggered:', sosData);
 
-    // 🔥 Broadcast to all clients
     req.io.emit('SOS_ALERT', sosData);
 
     res.json({

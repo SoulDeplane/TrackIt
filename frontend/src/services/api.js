@@ -9,7 +9,6 @@ const api = axios.create({
   }
 });
 
-// Add token to requests
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -18,7 +17,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle response errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -31,14 +29,12 @@ api.interceptors.response.use(
   }
 );
 
-// Auth API
 export const authAPI = {
   login: (credentials) => api.post('/auth/login', credentials),
   register: (userData) => api.post('/auth/register', userData),
   getMe: () => api.get('/auth/me')
 };
 
-// Admin API
 export const adminAPI = {
   bulkEntry: (data) => api.post('/admin/bulk-entry', { data }),
   getDrivers: () => api.get('/admin/drivers'),
@@ -47,7 +43,6 @@ export const adminAPI = {
   getStats: () => api.get('/admin/stats')
 };
 
-// Driver API
 export const driverAPI = {
   getMyBus: () => api.get('/driver/my-bus'),
   startTrip: () => api.post('/driver/start-trip'),
@@ -56,13 +51,16 @@ export const driverAPI = {
   saveLocation: (lat, lng) => api.post('/driver/location', { lat, lng })
 };
 
-// Tracking API
 export const trackingAPI = {
   getRoutes: () => api.get('/tracking/routes'),
   getBusesByRoute: (routeId) => api.get(`/tracking/buses/${routeId}`),
   getActiveBuses: () => api.get('/tracking/active-buses'),
   getBusDetails: (busId) => api.get(`/tracking/bus/${busId}`),
   getRouteDetails: (routeId) => api.get(`/tracking/route/${routeId}`)
+};
+
+export const sosAPI = {
+  sendSOS: (data) => api.post('/sos', data)
 };
 
 export default api;

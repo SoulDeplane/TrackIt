@@ -1,7 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-// Protected route wrapper
 export const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, loading, isAuthenticated } = useAuth();
   const location = useLocation();
@@ -19,7 +18,6 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    // Redirect to appropriate dashboard based on role
     const redirectPath = {
       admin: '/admin',
       driver: '/driver',
@@ -32,7 +30,6 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
   return children;
 };
 
-// Public route (redirect if logged in)
 export const PublicRoute = ({ children }) => {
   const { user, loading, isAuthenticated } = useAuth();
 

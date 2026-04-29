@@ -5,25 +5,21 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
-// Import routes
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const driverRoutes = require('./routes/driver');
 const trackingRoutes = require('./routes/tracking');
-const sosRoutes = require('./routes/sos'); // 🚨 NEW
+const sosRoutes = require('./routes/sos');
 
-// Import models
 const Location = require('./models/Location');
 const Bus = require('./models/Bus');
 const User = require('./models/User');
 
-// Connect to database
 connectDB();
 
 const app = express();
 const server = http.createServer(app);
 
-// Socket.io setup
 const io = new Server(server, {
   cors: {
     origin: ['http://localhost:5173', 'http://localhost:3000'],
@@ -32,7 +28,6 @@ const io = new Server(server, {
   }
 });
 
-// Middleware
 app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:3000'],
   credentials: true
@@ -40,31 +35,24 @@ app.use(cors({
 
 app.use(express.json());
 
-// 🚨 PASS SOCKET TO CONTROLLERS
 app.use((req, res, next) => {
   req.io = io;
   next();
 });
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/driver', driverRoutes);
 app.use('/api/tracking', trackingRoutes);
-app.use('/api/sos', sosRoutes); // 🚨 NEW
+app.use('/api/sos', sosRoutes);
 
-// Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date() });
 });
 
-// ================= SOCKET.IO =================
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  // ================= EXISTING FEATURES =================
-
-  // Driver sends location
   socket.on('sendLocation', async (data) => {
     try {
       const { busId, lat, lng, availableSeats } = data;
@@ -89,7 +77,6 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Driver starts trip
   socket.on('tripStarted', async ({ busId }) => {
     try {
       await Bus.findByIdAndUpdate(busId, { isActive: true });
@@ -99,7 +86,6 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Driver stops trip
   socket.on('tripStopped', async ({ busId }) => {
     try {
       await Bus.findByIdAndUpdate(busId, { isActive: false });
@@ -109,22 +95,16 @@ io.on('connection', (socket) => {
     }
   });
 
-  // ================= 🚨 SOS FEATURE =================
-
   socket.on('SOS_ALERT', (data) => {
-    console.log('🚨 SOS received via socket:', data);
-
-    // Broadcast to all clients (admin + parent)
+    console.log('SOS received via socket:', data);
     io.emit('SOS_ALERT', data);
   });
 
-  // ================= DISCONNECT =================
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
 });
 
-// ================= DEFAULT ADMIN =================
 const createDefaultAdmin = async () => {
   try {
     const adminExists = await User.findOne({ role: 'admin' });
@@ -147,9 +127,8 @@ const createDefaultAdmin = async () => {
 
 createDefaultAdmin();
 
-// ================= SERVER START =================
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

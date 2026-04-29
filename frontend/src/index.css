@@ -13,17 +13,6 @@ body {
   background-color: #f3f4f6;
 }
 
-.mapboxgl-popup-content {
-  padding: 15px;
-  border-radius: 8px;
-}
-
-.mapboxgl-popup-close-button {
-  font-size: 18px;
-  padding: 5px 10px;
-}
-
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -41,7 +30,6 @@ body {
   background: #a1a1a1;
 }
 
-/* Animations */
 @keyframes slide-in {
   from {
     transform: translateX(100%);

@@ -1,9 +1,6 @@
 const Bus = require('../models/Bus');
 const Location = require('../models/Location');
 
-// @desc    Get driver's assigned bus
-// @route   GET /api/driver/my-bus
-// @access  Private/Driver
 const getMyBus = async (req, res) => {
   try {
     const bus = await Bus.findOne({ driverId: req.user._id })
@@ -20,9 +17,6 @@ const getMyBus = async (req, res) => {
   }
 };
 
-// @desc    Start trip
-// @route   POST /api/driver/start-trip
-// @access  Private/Driver
 const startTrip = async (req, res) => {
   try {
     const bus = await Bus.findOne({ driverId: req.user._id });
@@ -41,9 +35,6 @@ const startTrip = async (req, res) => {
   }
 };
 
-// @desc    Stop trip
-// @route   POST /api/driver/stop-trip
-// @access  Private/Driver
 const stopTrip = async (req, res) => {
   try {
     const bus = await Bus.findOne({ driverId: req.user._id });
@@ -62,9 +53,6 @@ const stopTrip = async (req, res) => {
   }
 };
 
-// @desc    Update available seats
-// @route   PUT /api/driver/update-seats
-// @access  Private/Driver
 const updateSeats = async (req, res) => {
   try {
     const { availableSeats } = req.body;
@@ -89,9 +77,6 @@ const updateSeats = async (req, res) => {
   }
 };
 
-// @desc    Save location (also called via socket)
-// @route   POST /api/driver/location
-// @access  Private/Driver
 const saveLocation = async (req, res) => {
   try {
     const { lat, lng } = req.body;

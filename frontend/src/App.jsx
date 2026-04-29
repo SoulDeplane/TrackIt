@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
 import ErrorBoundary from './components/ErrorBoundary';
+import { ToastProvider } from './components/Toast';
 
-// Pages
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
@@ -14,61 +14,54 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
+        <ToastProvider>
         <Router>
           <Routes>
-            {/* Public Routes */}
-            <Route 
-              path="/login" 
+            <Route
+              path="/login"
               element={
                 <PublicRoute>
                   <Login />
                 </PublicRoute>
-              } 
+              }
             />
-            <Route 
-              path="/register" 
+            <Route
+              path="/register"
               element={
                 <PublicRoute>
                   <Register />
                 </PublicRoute>
-              } 
+              }
             />
-
-            {/* Admin Routes */}
-            <Route 
-              path="/admin" 
+            <Route
+              path="/admin"
               element={
                 <ProtectedRoute allowedRoles={['admin']}>
                   <AdminDashboard />
                 </ProtectedRoute>
-              } 
+              }
             />
-
-            {/* Driver Routes */}
-            <Route 
-              path="/driver" 
+            <Route
+              path="/driver"
               element={
                 <ProtectedRoute allowedRoles={['driver']}>
                   <DriverDashboard />
                 </ProtectedRoute>
-              } 
+              }
             />
-
-            {/* Student/Parent Routes */}
-            <Route 
-              path="/dashboard" 
+            <Route
+              path="/dashboard"
               element={
                 <ProtectedRoute allowedRoles={['student', 'parent']}>
                   <StudentDashboard />
                 </ProtectedRoute>
-              } 
+              }
             />
-
-            {/* Default redirect */}
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </Router>
+        </ToastProvider>
       </AuthProvider>
     </ErrorBoundary>
   );

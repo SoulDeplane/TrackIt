@@ -2,9 +2,6 @@ const User = require('../models/User');
 const Route = require('../models/Route');
 const Bus = require('../models/Bus');
 
-// @desc    Bulk entry from Excel data
-// @route   POST /api/admin/bulk-entry
-// @access  Private/Admin
 const bulkEntry = async (req, res) => {
   try {
     const { data } = req.body;
@@ -25,7 +22,6 @@ const bulkEntry = async (req, res) => {
       }
     };
 
-    // Get current route count for auto-numbering
     let routeCount = await Route.countDocuments();
 
     for (let i = 0; i < lines.length; i++) {
@@ -33,9 +29,8 @@ const bulkEntry = async (req, res) => {
       const lineNumber = i + 1;
 
       try {
-        // STEP 1: VALIDATE FORMAT
         const parts = line.split('|').map(p => p.trim());
-        
+
         if (parts.length !== 4) {
           results.failed.push({
             line: lineNumber,
@@ -47,7 +42,6 @@ const bulkEntry = async (req, res) => {
 
         const [regNo, driverName, phone, routeString] = parts;
 
-        // Validate required fields
         if (!regNo || !driverName || !phone || !routeString) {
           results.failed.push({
             line: lineNumber,
@@ -57,16 +51,12 @@ const bulkEntry = async (req, res) => {
           continue;
         }
 
-        // STEP 2: DRIVER
         let driver = await User.findOne({ phoneNumber: phone });
-        let driverCreated = false;
 
         if (!driver) {
-          // Generate email from name
           const emailBase = driverName.toLowerCase().replace(/\s+/g, '.');
           const email = `${emailBase}@trackit.com`;
 
-          // Check if email exists, add random suffix if so
           let finalEmail = email;
           const emailExists = await User.findOne({ email });
           if (emailExists) {
@@ -80,19 +70,15 @@ const bulkEntry = async (req, res) => {
             role: 'driver',
             phoneNumber: phone
           });
-          driverCreated = true;
           results.created.drivers++;
         }
 
-        // STEP 3: ROUTE
         const normalizedRouteName = routeString.trim();
         let route = await Route.findOne({ routeName: normalizedRouteName });
-        let routeCreated = false;
 
         if (!route) {
-          // Split by "-" to create stops
           const stopNames = normalizedRouteName.split('-').map(s => s.trim()).filter(s => s);
-          
+
           const stops = stopNames.map((name, index) => ({
             name,
             lat: 30.3165 + index * 0.001,
@@ -106,13 +92,11 @@ const bulkEntry = async (req, res) => {
             routeName: normalizedRouteName,
             stops
           });
-          routeCreated = true;
           results.created.routes++;
         }
 
-        // STEP 4: BUS
         const existingBus = await Bus.findOne({ busNumber: regNo });
-        
+
         if (existingBus) {
           results.failed.push({
             line: lineNumber,
@@ -151,9 +135,6 @@ const bulkEntry = async (req, res) => {
   }
 };
 
-// @desc    Get all drivers
-// @route   GET /api/admin/drivers
-// @access  Private/Admin
 const getAllDrivers = async (req, res) => {
   try {
     const drivers = await User.find({ role: 'driver' }).select('-password');
@@ -164,9 +145,6 @@ const getAllDrivers = async (req, res) => {
   }
 };
 
-// @desc    Get all buses
-// @route   GET /api/admin/buses
-// @access  Private/Admin
 const getAllBuses = async (req, res) => {
   try {
     const buses = await Bus.find()
@@ -179,9 +157,6 @@ const getAllBuses = async (req, res) => {
   }
 };
 
-// @desc    Get all routes
-// @route   GET /api/admin/routes
-// @access  Private/Admin
 const getAllRoutes = async (req, res) => {
   try {
     const routes = await Route.find();
@@ -192,9 +167,6 @@ const getAllRoutes = async (req, res) => {
   }
 };
 
-// @desc    Get dashboard stats
-// @route   GET /api/admin/stats
-// @access  Private/Admin
 const getStats = async (req, res) => {
   try {
     const totalDrivers = await User.countDocuments({ role: 'driver' });

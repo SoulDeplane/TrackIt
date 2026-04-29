@@ -8,7 +8,6 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('bulk');
   const [bulkData, setBulkData] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
   const [stats, setStats] = useState(null);
   const [buses, setBuses] = useState([]);
   const [drivers, setDrivers] = useState([]);
@@ -23,7 +22,6 @@ const AdminDashboard = () => {
     if (activeTab === 'routes') fetchRoutes();
   }, [activeTab]);
 
-  // 🚨 SOS LISTENER
   useEffect(() => {
     socketService.connect();
 
@@ -86,24 +84,18 @@ Longitude: ${data.lng}
     if (!bulkData.trim()) return;
 
     setLoading(true);
-    setResult(null);
 
     try {
-      const response = await adminAPI.bulkEntry(bulkData);
-      setResult(response.data);
+      await adminAPI.bulkEntry(bulkData);
+      toast.success('Bulk entry processed successfully');
       fetchStats();
       setBulkData('');
     } catch (error) {
-      setResult({
-        error: true,
-        message: error.response?.data?.message || 'Failed to process bulk entry'
-      });
+      toast.error(error.response?.data?.message || 'Failed to process bulk entry');
     }
 
     setLoading(false);
   };
-
-  const sampleData = `UK07PA1696 | Sunil Kumar | 7060226291 | Clock Tower- Darshanlal Chowk- ISBT- GEU`;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -112,7 +104,6 @@ Longitude: ${data.lng}
       <div className="max-w-7xl mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
-        {/* Stats */}
         {stats && (
           <div className="grid grid-cols-3 gap-4 mb-6">
             <div className="bg-white p-4 rounded shadow">
@@ -127,7 +118,6 @@ Longitude: ${data.lng}
           </div>
         )}
 
-        {/* Tabs */}
         <div className="mb-4">
           {['bulk', 'buses', 'drivers', 'routes'].map(tab => (
             <button
@@ -142,7 +132,6 @@ Longitude: ${data.lng}
           ))}
         </div>
 
-        {/* Bulk Entry */}
         {activeTab === 'bulk' && (
           <form onSubmit={handleBulkSubmit}>
             <textarea
@@ -162,7 +151,6 @@ Longitude: ${data.lng}
           </form>
         )}
 
-        {/* Buses */}
         {activeTab === 'buses' && (
           <div>
             {buses.map(bus => (
@@ -173,7 +161,6 @@ Longitude: ${data.lng}
           </div>
         )}
 
-        {/* Drivers */}
         {activeTab === 'drivers' && (
           <div>
             {drivers.map(driver => (
@@ -184,7 +171,6 @@ Longitude: ${data.lng}
           </div>
         )}
 
-        {/* Routes */}
         {activeTab === 'routes' && (
           <div>
             {routes.map(route => (
